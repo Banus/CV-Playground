@@ -19,14 +19,26 @@ struct Mesh
     QVector<QVector2D> texCoords;
     QVector<QVector3D> vertices;
 
-    QMatrix4x4 rotationMatrix;
-    QMatrix4x4 translationMatrix;
-
     void loadArrays();
-    void draw();
+    void draw() const;
+};
+
+class Scene
+{
+public:
+    Scene() {}
 
     void rotate(qreal angle_deg, QVector3D const& axis);
     void translate(QVector3D const& t);
+
+    void setContent(Mesh const& object);
+    void draw() const;
+
+private:
+    Mesh object;
+
+    QMatrix4x4 rotationMatrix;
+    QMatrix4x4 translationMatrix;
 };
 
 Mesh buildSphere(double radius, int slices = 20, int stacks = 20);

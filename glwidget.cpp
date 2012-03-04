@@ -3,6 +3,9 @@
 #include <QtGui/QtEvents>
 #include <qmath.h>
 
+#include <GL/glu.h>
+
+
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
   fov(45.0) {
@@ -24,7 +27,7 @@ void GLWidget::initializeGL()
     qglClearColor(Qt::black);
 
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_MULTISAMPLE);
+    glEnable(GL_TEXTURE_2D);
 
     build_geometry();
 }
@@ -51,7 +54,7 @@ void GLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    sphere.draw();
+    panorama.draw();
 }
 
 static QVector3D sphere_point(QPoint const& screenPoint)
@@ -84,7 +87,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent * event)
     {
         euler_ball.mouseDragged(sphere_point(event->pos()));
         AngleAxis rotation = euler_ball.getRotation();
-        sphere.rotate(180.0 * rotation.angle / M_PI, rotation.axis);
+        panorama.rotate(180.0 * rotation.angle / M_PI, rotation.axis);
     }
 
     updateGL();
@@ -116,7 +119,5 @@ void GLWidget::build_geometry()
                                  GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    sphere = buildSphere(25.0, 40, 40);
-
-    sphere.loadArrays();
+    panorama.setContent(buildSphere(25.0, 40, 40));
 }

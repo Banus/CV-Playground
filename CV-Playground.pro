@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui opengl
+LIBS     += -l GLU
 
 TARGET = CV-Playground
 TEMPLATE = app

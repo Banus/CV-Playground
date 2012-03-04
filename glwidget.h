@@ -33,7 +33,7 @@ protected:
 private:
     void build_geometry();
 
-    Mesh sphere;
+    Scene panorama;
     EulerBall euler_ball;
     double fov;
 };
